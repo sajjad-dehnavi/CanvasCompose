@@ -3,6 +3,7 @@ package dehnavi.sajjad.canvascompose.ui
 import android.graphics.Paint
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
@@ -22,6 +23,7 @@ import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -30,7 +32,9 @@ import dehnavi.sajjad.canvascompose.ui.theme.gray
 import dehnavi.sajjad.canvascompose.ui.theme.orange
 import dehnavi.sajjad.canvascompose.ui.theme.white
 import java.lang.Math.PI
+import kotlin.math.atan2
 import kotlin.math.cos
+import kotlin.math.roundToInt
 import kotlin.math.sin
 
 @Composable
@@ -51,8 +55,56 @@ fun CustomCircularProgressIndicator(
         mutableStateOf(initialValue)
     }
 
+    var dragStartAngle by remember {
+        mutableStateOf(0f)
+    }
+    var changeAngle by remember {
+        mutableStateOf(0f)
+    }
+    var oldPositionValue by remember {
+        mutableStateOf(initialValue)
+    }
+
     Box(modifier = modifier) {
-        Canvas(modifier = Modifier.fillMaxSize()) {
+        Canvas(
+            modifier = Modifier
+                .fillMaxSize()
+                .pointerInput(true) {
+                    detectDragGestures(
+                        onDragStart = { offset ->
+                            dragStartAngle = -atan2(
+                                x = circleCenter.y - offset.y,
+                                y = circleCenter.x - offset.x,
+                            ) * (180f / PI).toFloat()
+                            dragStartAngle = (dragStartAngle + 180f).mod(360f)
+
+                        },
+                        onDrag = { change, dragAmount ->
+                            var touchAngle = -atan2(
+                                x = circleCenter.y - change.position.y,
+                                y = circleCenter.x - change.position.x,
+                            ) * (180f / PI).toFloat()
+                            touchAngle = (touchAngle + 180f).mod(360f)
+
+                            val currentAngle = oldPositionValue * 360f / (maxValue - minValue)
+                            changeAngle = touchAngle - currentAngle
+
+                            val lowerThreshold = currentAngle - (360f / (maxValue - minValue) * 5)
+                            val higherThreshold = currentAngle + (360f / (maxValue - minValue) * 5)
+
+                            //constraint select area
+                            if (dragStartAngle in lowerThreshold..higherThreshold) {
+                                positionValue =
+                                    (oldPositionValue + (changeAngle / (360f / (maxValue - minValue))).roundToInt())
+                            }
+                        },
+                        onDragEnd = {
+                            oldPositionValue = positionValue
+                            onPositionChange(positionValue)
+                        }
+                    )
+                }
+        ) {
             val width = size.width
             val height = size.height
             val circleThickness = width / 30f
