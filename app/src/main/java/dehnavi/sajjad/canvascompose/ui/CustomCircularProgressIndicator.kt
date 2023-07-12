@@ -79,7 +79,7 @@ fun CustomCircularProgressIndicator(
                             dragStartAngle = (dragStartAngle + 180f).mod(360f)
 
                         },
-                        onDrag = { change, dragAmount ->
+                        onDrag = { change, _ ->
                             var touchAngle = -atan2(
                                 x = circleCenter.y - change.position.y,
                                 y = circleCenter.x - change.position.x,

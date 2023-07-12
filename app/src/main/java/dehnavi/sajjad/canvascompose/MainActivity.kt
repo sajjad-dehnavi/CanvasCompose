@@ -1,6 +1,7 @@
 package dehnavi.sajjad.canvascompose
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
@@ -9,11 +10,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import dehnavi.sajjad.canvascompose.ui.CustomCircularProgressIndicator
 import dehnavi.sajjad.canvascompose.ui.theme.CanvasComposeTheme
@@ -47,27 +45,12 @@ class MainActivity : ComponentActivity() {
                             circleRadius = 230f,
                             onPositionChange = { position ->
                                 //do something with this position value
+                                Log.d("TAG", "current position: $position")
                             }
                         )
                     }
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    CanvasComposeTheme {
-        Greeting("Android")
     }
 }
