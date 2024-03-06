@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "dehnavi.sajjad.canvascompose'="
+    namespace = "dehnavi.sajjad.canvascompose"
     compileSdk = 34
 
     defaultConfig {
@@ -66,4 +66,8 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+    implementation(libs.androidx.graphics.shapes)
+    implementation("androidx.graphics:graphics-core:1.0.0-beta01")
+    implementation("androidx.graphics:graphics-path:1.0.0-beta02")
+
 }

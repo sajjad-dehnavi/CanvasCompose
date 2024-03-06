@@ -1,4 +1,4 @@
-package dehnavi.sajjad.canvascompose.ui
+package dehnavi.sajjad.canvascompose.component
 
 import android.graphics.Paint
 import androidx.compose.foundation.Canvas
