@@ -8,3 +8,7 @@ Progress Indicator(draggable):
 Loading Shape:
 
 ![Loading Shape](https://github.com/sajjad-dehnavi/CanvasCompose/raw/master/loading_shape.gif)
+
+Verify Shape:
+
+![Verify Shape](https://github.com/sajjad-dehnavi/CanvasCompose/raw/master/verify_shape.gif)
